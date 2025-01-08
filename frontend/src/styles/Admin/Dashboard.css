@@ -1,0 +1,18 @@
+.dashboard-container {
+  padding: 24px;
+  min-height: 100vh;
+}
+
+.events {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.risky-row {
+  background-color: #c29b9b !important;
+}
+/* @media (max-width: 768px) {
+  .dashboard-container {
+    padding: 16px;
+  }
+} */

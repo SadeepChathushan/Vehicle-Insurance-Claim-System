@@ -1,0 +1,139 @@
+:root {
+  /* Colors */
+  --white: #fff;
+  --red: #e30202;
+  --black: #262626;
+  --bg1: #f0f0f0;
+  --bg2: #F0EEED;
+  --blue: #0808c2;
+  --col1: #D5C6E0;
+  --col2: #AAA1C8;
+  --col3: #967aa1;
+  --col4: #192A51;
+  --pending: #f6dda9;
+
+  /* Font and typography */
+  --body-font: 'Roboto', sans-serif;
+  --h1-font-size: 24px;
+  --normal-font-size: 14px;
+  --tiny-font-size: 12px;
+  --medium-font-size: 20px;
+}
+
+/* Clinics container styles */
+.clinics-container {
+  /* font-family: var(--body-font); */
+  /* background-color: var(--bg1); */
+  /* color: var(--black); */
+}
+
+/* Tab header styles */
+.tab-header {
+  /* background-color: var(--col3); */
+}
+
+/* Tab item styles */
+.tab-item {
+  /* font-size: var(--normal-font-size); */
+  /* color: var(--white); */
+}
+
+/* Tab panel styles */
+.tab-panel {
+  /* background-color: var(--bg2); */
+  padding: 16px;
+}
+
+/* Clinic location styles */
+.clinic-location {
+  font-size: var(--h1-font-size);
+  /* color: var(--col4); */
+}
+
+/* Clinic info styles */
+.clinic-info {
+  font-size: var(--normal-font-size);
+}
+
+/* Section header styles */
+.section-header {
+  font-size: var(--medium-font-size);
+  /* color: var(--blue); */
+}
+
+/* Assign button styles */
+.assign-button {
+  margin-top: 8px;
+  /* color: var(--blue); */
+  /* border-color: var(--blue); */
+}
+
+/* View button styles */
+.view-button {
+  /* color: var(--blue); */
+}
+
+/* Generate report button styles */
+.generate-report-button {
+  /* background-color: var(--blue); */
+}
+
+/* Statistics chart styles */
+.statistics-chart {
+  /* background-color: var(--col1); */
+  padding: 8px;
+}
+
+/* Chart label styles */
+.chart-label {
+  /* color: var(--black); */
+}
+
+/* Clinic table styles */
+.clinic-table {
+  /* background-color: var(--white); */
+  border-radius: 4px;
+}
+
+/* Table header cell styles */
+.table-header-cell {
+  /* background-color: var(--col2); */
+  /* color: var(--white); */
+  font-size: var(--tiny-font-size);
+}
+
+/* Table cell styles */
+.table-cell {
+  font-size: var(--normal-font-size);
+}
+
+/* Add New Clinic Modal styles */
+.add-clinic-modal .MuiTypography-h6 {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.add-clinic-modal .MuiTextField-root {
+  margin-bottom: 16px;
+}
+
+.add-clinic-modal .MuiTextField-root input {
+  border-radius: 4px;
+  border-color: #d9d9d9;
+}
+
+.add-clinic-modal .MuiTextField-root input:focus {
+  border-color: #967aa1;
+  box-shadow: 0 0 0 2px rgba(150, 112, 171, 0.2);
+}
+
+.add-clinic-modal .MuiButton-containedPrimary {
+  background-color: #967aa1 !important;
+  border-color: #967aa1 !important;
+  color: #ffffff !important; /* Ensures text color is white */
+}
+
+.add-clinic-modal .MuiButton-containedPrimary:hover {
+  background-color: #8a6683 !important;
+  border-color: #8a6683 !important;
+}

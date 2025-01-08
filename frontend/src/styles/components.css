@@ -1,0 +1,235 @@
+/* card component */
+.custom-card {
+  transition: background-color 0.3s;
+  cursor: pointer;
+}
+
+.custom-card .card-header {
+  display: flex;
+  align-items: center;
+}
+
+.custom-card .card-title {
+  margin-left: 8px; /* Spacing between icon and title */
+}
+
+.custom-card:hover {
+  background-color: #fff;
+}
+
+.custom-card.selected {
+  background-color: #D5C6E0;
+}
+
+.suffix-text {
+  font-size: 12px;
+}
+
+.card-paragraph {
+  margin-top: 12px;
+  font-size: 12px;
+  color: #262626;
+}
+
+  /* Calendar component */
+
+  .ant-calendar {
+    background-color: #967aa1;
+  }
+  
+  .ant-calendar-header {
+    background-color: #967aa1;
+    color: #fff;
+  }
+  
+  .ant-calendar-date {
+    position: relative;
+  }
+  
+  .ant-calendar-date.ant-calendar-date-selected,
+  .ant-calendar-date.ant-calendar-date-cell {
+    color: #000;
+  }
+  
+  .ant-calendar-date-event {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid #192A51;
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #192A51;
+    color: #fff;
+  }
+
+  /* Full Calendar Component */
+
+  .events {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .events li {
+    line-height: 1.5;
+    margin-bottom: 5px;
+  }
+
+  .calendar-title {
+    font-size: 24px;
+    font-weight: bold;
+  }
+
+  .child-clinic {
+    color: #4CAF50;
+  }
+
+  .expectant-mother-clinic {
+    color: #2196F3;
+    
+  }
+
+  .vaccination {
+    color: #FF5722;
+  }
+
+  .awareness-program {
+    color: #9C27B0;
+  }
+
+  .home-visit {
+    color: #FFC107;
+  }
+
+  .event-badge {
+    display: flex;
+    align-items: center;
+  }
+
+  .event-badge .dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 10px;
+    background-color: #000;
+  }
+
+  .event-badge .content {
+    font-size: 12px;
+  }
+
+  .child-clinic .dot { background-color: #4CAF50; }
+  .expectant-mother-clinic .dot { background-color: #2196F3; }
+
+  .vaccination .dot { background-color: #FF5722; }
+  .awareness-program .dot { background-color: #9C27B0; }
+  .home-visit .dot { background-color: #FFC107; }
+
+  /* Add Event Modal */
+  .add-event-modal .ant-modal-title {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .add-event-modal .ant-form-item-label {
+    font-weight: bold;
+  }
+
+  .add-event-modal .ant-form-item {
+    margin-bottom: 16px;
+  }
+
+  .add-event-modal .ant-form-item .ant-form-item-explain-error {
+    color: #ff4d4f;
+  }
+
+  .add-event-modal .ant-input,
+  .add-event-modal .ant-input-textarea,
+  .add-event-modal .ant-picker {
+    border-radius: 4px;
+    border-color: #d9d9d9;
+  }
+
+  .add-event-modal .ant-input:focus,
+  .add-event-modal .ant-input-textarea:focus,
+  .add-event-modal .ant-picker:focus {
+    border-color: #967aa1;
+    box-shadow: 0 0 0 2px rgba(150, 112, 171, 0.2);
+  }
+
+  .add-event-modal .ant-btn-primary {
+    background-color: #967aa1;
+    border-color: #967aa1;
+  }
+
+  .add-event-modal .ant-btn-primary:hover {
+    background-color: #8a6683;
+    border-color: #8a6683;
+  }
+
+/* Event Details Modal Styling */
+
+.calendar-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* .event-details-modal .ant-modal-title {
+  font-size: 24px;
+  font-weight: bold;
+} */
+
+.event-details-modal .ant-modal-footer {
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+}
+
+.event-details-content {
+  padding: 16px;
+}
+
+.event-details-content .event-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.event-details-content .event-item .event-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.event-details-content .event-item .event-text {
+  font-size: 14px;
+  margin: 0;
+}
+
+.event-details-modal .child-clinic .event-dot {
+  background-color: #4CAF50; /* Green */
+}
+
+.event-details-modal .expectant-mother-clinic .event-dot {
+  background-color: #2196F3; /* Blue */
+}
+
+.event-details-modal .vaccination .event-dot {
+  background-color: #FF5722; /* Orange */
+}
+
+.event-details-modal .awareness-program .event-dot {
+  background-color: #9C27B0; /* Purple */
+}
+
+.event-details-modal .home-visit .event-dot {
+  background-color: #FFC107; /* Amber */
+}

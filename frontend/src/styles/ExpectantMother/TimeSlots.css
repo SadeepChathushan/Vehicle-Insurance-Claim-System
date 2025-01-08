@@ -1,0 +1,14 @@
+/* Add this to your CSS file, e.g., styles.css */
+.list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.disabled-button {
+    background-color: #d9d9d9;
+    border-color: #d9d9d9;
+    color: #fff;
+}
