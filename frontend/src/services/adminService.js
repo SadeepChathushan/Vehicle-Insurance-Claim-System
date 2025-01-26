@@ -3,6 +3,29 @@ import axios from 'axios';
 const API_URL = 'http://localhost:8080/admin'; // Your API URL
 
 const AdminProfileService = {
+
+  // Create a new admin or officer
+  async createOfficer(adminData) {
+    const token = localStorage.getItem('token'); // Retrieve token from local storage
+    if (!token) {
+      throw new Error('No token found. Please log in.');
+    }
+
+    try {
+      const response = await axios.post(`${API_URL}/register-officer`, adminData, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Add token to headers for authentication
+        },
+      });
+
+      return response.data; // Return the created admin details
+    } catch (error) {
+      console.error('Error registering officer:', error.response ? error.response.data : error.message);
+      throw error.response ? error.response.data : error; // Throw error for the caller to handle
+    }
+  },
+
+
   // Get a list of users (admin access)
 //   async getUsers() {
 //     const token = localStorage.getItem('token');
@@ -32,7 +55,7 @@ const AdminProfileService = {
     }
 
     try {
-      const response = await axios.get(`${API_URL}/adminuser/get-profile`, {
+      const response = await axios.get(`${API_URL}/get-profile`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -52,7 +75,7 @@ const AdminProfileService = {
     }
 
     try {
-      const response = await axios.put(`${API_URL}/adminuser/update-profile/${userId}`, userData, {
+      const response = await axios.put(`${API_URL}/update-profile/${userId}`, userData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

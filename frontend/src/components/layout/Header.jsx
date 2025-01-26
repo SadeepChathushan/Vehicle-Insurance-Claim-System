@@ -9,6 +9,8 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined'; //logout
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined'; //home
 
+// #bdd5ff
+
 const { Header } = Layout;
 
 const AppHeader = ({ onMenuClick }) => {
@@ -24,7 +26,7 @@ const AppHeader = ({ onMenuClick }) => {
 
   const logout = async () => {
     try {
-      await signOut();
+      signOut();
       navigate('/signin');
     } catch (error) {
       console.log('error', error);

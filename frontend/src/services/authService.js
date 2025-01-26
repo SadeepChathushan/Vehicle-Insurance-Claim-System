@@ -12,6 +12,7 @@ const AuthService = {
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('user', JSON.stringify(response.data.user)); // Save user info
+        localStorage.setItem('userId', response.data.userId);
         const adminId = userData?.adminId; // Extract the adminId from the stored user data
 
       }

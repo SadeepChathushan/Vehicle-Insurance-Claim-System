@@ -117,6 +117,7 @@ const login = async (req, res) => {
             email: user.email,
             name: user.name,
             role: user.role,
+            userId: user._id,
         };
 
         // If the user's role is ADMIN, include the adminId in the response

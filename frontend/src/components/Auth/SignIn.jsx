@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 // import loginMom from '../../assets/images/baby-flipped.jpg';
-// import logo from '../../assets/images/logo4.png';
+import logo from '../../assets/images/car222.jpg';
 
 const SignIn = () => {
   const { signIn } = useAuth();
@@ -65,7 +65,7 @@ const SignIn = () => {
   };
 
   const validatePassword = (password) => {
-    const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const re = /^(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
     return re.test(password);
   };
 
@@ -119,7 +119,7 @@ const SignIn = () => {
     <div
       className="flex items-center justify-end bg-center bg-cover responsive-background"
       style={{
-        // backgroundImage: `url(${loginMom})`,
+        backgroundImage: `url(${logo})`,
         minHeight: '100vh',
         overflow: 'hidden',
         paddingLeft: marginLeft,

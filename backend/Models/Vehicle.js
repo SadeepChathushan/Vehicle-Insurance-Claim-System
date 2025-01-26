@@ -2,11 +2,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const VehicleSchema = new Schema({
-    clientId: {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
-      required: true
-    },
+  clientNic: {
+    type: mongoose.Schema.Types.ObjectId, // Correct type for the reference
+    ref: 'User',                         // Reference to the 'User' model
+    required: true
+  },
     policyNo: {
       type: String,
       required: true

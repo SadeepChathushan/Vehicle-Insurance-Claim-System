@@ -41,10 +41,22 @@ const App = () => {
             </Route>
           </Route>
         </Route>
+
+
+{/* 
+<Route element={<PrivateRoute />}>
+  <Route path="/" element={<AppLayout />}>
+    <Route path="client/*" element={<ClientRoutes />} />
+    <Route path="dc-adjuster/*" element={<DCAdjusterRoutes />} />
+    <Route path="admin/*" element={<AdminRoutes />} />
+    <Route path="hc-adjuster/*" element={<HCAdjusterRoutes />} />
+  </Route>
+</Route> */}
+
+
       </Routes>
     </Router>
   );
 };
 
 export default App;
-

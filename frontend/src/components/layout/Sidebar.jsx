@@ -41,7 +41,10 @@ const Sidebar = ({ collapsed, userType }) => {
       case "CLIENT":
         return [
           { key: "/client/dashboard", icon: <DashboardOutlinedIcon style={iconStyle} />, label: <Link to="/client/dashboard">Dashboard</Link> },
-         
+          { key: "/client/claims", icon: <DashboardOutlinedIcon style={iconStyle} />, label: <Link to="/client/claims">Claims</Link> },
+          { key: "/client/emergancy", icon: <DashboardOutlinedIcon style={iconStyle} />, label: <Link to="/client/emergancy">Emergancy</Link> },
+          { key: "/client/profile", icon: <DashboardOutlinedIcon style={iconStyle} />, label: <Link to="/client/profile">Profile</Link> },
+    
         ];
       case "DCADJUSTER":
         return [

@@ -1,4 +1,4 @@
-const { registerDCAdjuster, registerClient ,registerVehicle,registerHCAdjuster ,getAdminProfile} = require('../Controllers/AdminController');
+const { registerDCAdjuster, registerClient ,registerVehicle,registerHCAdjuster ,getAdminProfile ,registerOfficer} = require('../Controllers/AdminController');
 const ensureAuthenticated = require('../Middlewares/ensureAuthenticated');
 const router = require('express').Router();
 
@@ -8,5 +8,6 @@ router.post('/register-client', registerClient);
 router.post('/register-vehicle', registerVehicle);
 router.post('/register-HCAdjuster', registerHCAdjuster);
 router.get('/profile/:adminId' , getAdminProfile);
+router.post('/register-officer', registerOfficer);
 
 module.exports = router;

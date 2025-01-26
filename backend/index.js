@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const AuthRouter = require('./Routes/AuthRouter');
 const AdminRouter = require('./Routes/adminRoutes');
+const dcAdjusterRouter = require('./Routes/dcAdjusterRouter');
 
 require('dotenv').config();
 require('./Models/db');
@@ -17,6 +18,7 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use('/auth', AuthRouter);
 app.use('/admin', AdminRouter);
+app.use('/dcAdjuster', dcAdjusterRouter);
 
 
 app.listen(PORT, () => {

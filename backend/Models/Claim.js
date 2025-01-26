@@ -7,7 +7,7 @@ const ClaimSchema = new Schema({
         ref: 'User',
         required: true 
     },
-    vehicleId: {
+    vehicleNum: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Vehicle',
         required: true
@@ -17,8 +17,11 @@ const ClaimSchema = new Schema({
         required: true
     },
     description: {
-        type: String,
-        
+        type: String,   
+    },
+    mobileNumber: {
+        type: String, // Storing it as a string to accommodate formats like "+94XXXXXXX"
+        required: true,
     },
     status: {
         type: String,
@@ -29,8 +32,7 @@ const ClaimSchema = new Schema({
         type: Date,
         default: Date.now
     }  
-
-})
+});
 
 const ClaimModel = mongoose.model('Claim', ClaimSchema);
 module.exports = ClaimModel;

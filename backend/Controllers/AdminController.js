@@ -2,6 +2,58 @@ const UserModel = require('../Models/User');
 const VehicleModel = require('../Models/Vehicle')
 const bcrypt = require('bcrypt');
 
+
+// Controller method to register a new DCAdjuster
+const registerOfficer = async (req, res) => {
+  try {
+    // Extract DCAdjuster information from the request body
+    const { name, email, role, contact, city, address, nic, dob } = req.body;
+    
+    // Check if the DCAdjuster already exists
+    const existingUser = await UserModel.findOne({ email });
+    if (existingUser) {
+      return res.status(409).json({ message: 'DCAdjuster already exists', success: false });
+    }
+
+    // Create a new User instance with the role set to 'DCAdjuster'
+    const newofficer = new UserModel({
+      name,
+      email,
+      password: nic,
+      role,
+      contact,
+      city,
+      address,
+      nic,
+      dob
+    });
+
+    // Hash the password before saving
+    newofficer.password = await bcrypt.hash(newofficer.password, 10);
+
+    // Save the newofficer
+    await newofficer.save();
+
+    // Respond with success
+    res.status(201).json({
+      message: 'Registered successfully',
+      success: true
+    });
+  } catch (err) {
+    console.error('Register  Error:', err);
+    res.status(500).json({
+      message: 'Internal server error',
+      success: false
+    });
+  }
+};
+
+
+
+
+
+
+
 // Controller method to register a new DCAdjuster
 const registerDCAdjuster = async (req, res) => {
   try {
@@ -329,5 +381,6 @@ module.exports = {
     registerClient,
     registerVehicle,
     registerHCAdjuster,
-    getAdminProfile
+    getAdminProfile,
+    registerOfficer
 };
