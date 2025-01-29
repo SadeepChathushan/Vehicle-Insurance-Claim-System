@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 // import loginMom from '../../assets/images/baby-flipped.jpg';
-import logo from '../../assets/images/car222.jpg';
+import logo from '../../assets/images/car_login.jpg';
 
 const SignIn = () => {
   const { signIn } = useAuth();
@@ -101,8 +101,8 @@ const SignIn = () => {
         case 'DCADJUSTER':
           navigate('/dc-adjuster/dashboard');
           break;
-        case 'HCADJUSTER':
-          navigate('/hc-adjuster/dashboard');
+        case 'AGENT':
+          navigate('/agent/dashboard');
           break;
         default:
           navigate('/');
@@ -150,7 +150,7 @@ const SignIn = () => {
         <div
           className="absolute inset-0 transform -skew-y-6 shadow-lg sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"
           style={{
-            background: 'linear-gradient(to right, #ffcd37, #ffcd37)',
+            background: 'linear-gradient(to right, #0B3861, #1C4978)',
             zIndex: 3,
           }}
         ></div>
@@ -163,7 +163,7 @@ const SignIn = () => {
           <div className="max-w-md mx-auto">
             <div className="flex items-center justify-center pb-0 mt-0 mb-10 text-center">
               {/* <img src={logo} alt="Logo" className="w-20 h-45" /> */}
-              <h1 className="ml-1 text-4xl font-bold" style={{ color: '#ffcd37' }}>Cover360</h1>
+              <h1 className="ml-1 text-4xl font-bold" style={{ color: '#0B3861' }}>Cover360</h1>
             </div>
             <div className="mb-4 text-center">
               <p className="mt-2 text-gray-600">Welcome back! Please login to your account.</p>
@@ -209,7 +209,7 @@ const SignIn = () => {
                     <button
                       type="submit"
                       className="px-4 py-2 text-white rounded-md"
-                      style={{ backgroundColor: '#ffcd37' }}
+                      style={{ backgroundColor: '#1C4978' }}
                     >
                       Log In
                     </button>

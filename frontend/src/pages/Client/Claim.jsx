@@ -1,9 +1,123 @@
-import React, { useState } from "react";
-import {Button,Dialog,DialogActions,DialogContent,DialogTitle,TextField,Typography,Grid,Card,CardContent,Table,TableBody,TableCell,TableContainer,TableHead,TableRow,Paper,Select,MenuItem,
+import React, { useState, useEffect } from "react";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  Typography,
+  Grid,
+  Card,
+  CardContent,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Select,
+  MenuItem,
 } from "@mui/material";
+import clientService from "../../services/clientService";
 
 const Claim = () => {
-  const districts = ["Ampara","Anuradhapura","Badulla","Batticaloa","Colombo","Galle","Gampaha","Hambantota","Jaffna","Kalutara","Kandy","Kegalle","Kilinochchi","Kurunegala","Mannar","Matale","Matara","Monaragala","Mullaitivu","Nuwara Eliya","Polonnaruwa","Puttalam","Ratnapura","Trincomalee","Vavuniya",];
+  const districts = [
+    "Ampara",
+    "Anuradhapura",
+    "Badulla",
+    "Batticaloa",
+    "Colombo",
+    "Galle",
+    "Gampaha",
+    "Hambantota",
+    "Jaffna",
+    "Kalutara",
+    "Kandy",
+    "Kegalle",
+    "Kilinochchi",
+    "Kurunegala",
+    "Mannar",
+    "Matale",
+    "Matara",
+    "Monaragala",
+    "Mullaitivu",
+    "Nuwara Eliya",
+    "Polonnaruwa",
+    "Puttalam",
+    "Ratnapura",
+    "Trincomalee",
+    "Vavuniya",
+  ];
+
+  const [openClaimForm, setOpenClaimForm] = useState(false);
+  const [selectedVehicle, setSelectedVehicle] = useState(null);
+  const [claimData, setClaimData] = useState({
+    description: "",
+    location: "",
+    vehicleNum: "",
+    createdAt: "",
+    status: "",
+  });
+  const [claims, setClaims] = useState([]);
+
+  useEffect(() => {
+    const fetchClaims = async () => {
+      const userId = localStorage.getItem("userId");
+      if (!userId) {
+        console.error("User ID not found in localStorage!");
+        return;
+      }
+
+      try {
+        const fetchedClaimsResponse = await clientService.getClaims(userId);
+
+        // Check if the response has success as true and claims as an array
+        if (
+          fetchedClaimsResponse.success &&
+          Array.isArray(fetchedClaimsResponse.claims)
+        ) {
+          setClaims(fetchedClaimsResponse.claims); // Extract and set claims
+        } else {
+          console.error(
+            "API did not return a valid claims array:",
+            fetchedClaimsResponse
+          );
+          setClaims([]); // Set an empty array if the claims are invalid
+        }
+      } catch (error) {
+        console.error("Error fetching claims:", error);
+        setClaims([]); // Set an empty array if the fetch fails
+      }
+    };
+
+    fetchClaims();
+  }, []);
+
+  const handleOpenClaimForm = (vehicle) => {
+    setSelectedVehicle(vehicle);
+    setClaimData({
+      description: "",
+      location: "",
+      vehicleNum: "",
+      createdAt: "",
+
+      status: "",
+    });
+    setOpenClaimForm(true);
+  };
+  const handleCloseClaimForm = () => {
+    setOpenClaimForm(false);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setClaimData((prevData) => ({
+      ...prevData,
+      [name]: value, // This will update the correct field, based on the name
+    }));
+  };
 
   const handleLocationChange = (event) => {
     const { value } = event.target;
@@ -13,108 +127,48 @@ const Claim = () => {
     }));
   };
 
-  const customer = {
-    name: "John Doe",
-    vehicles: [
-      {
-        id: 1,
-        make: "Toyota",
-        model: "Corolla",
-        year: 2021,
-        claimDate: "2022/05/27",
-        status: "Not Complete",
-        number: "ABC-1234",
-      },
-      {
-        id: 2,
-        make: "Honda",
-        model: "Civic",
-        year: 2019,
-        claimDate: "2021/07/07",
-        status: "Complete",
-        number: "XYZ-5678",
-      },
-    ],
-  };
+  const handleSubmitClaim = async () => {
+    console.log("Submitting Claim...");
+    const userId = localStorage.getItem("userId"); // Get the userId from localStorage
+    console.log("userid claim", userId);
 
-  const [openClaimForm, setOpenClaimForm] = useState(false);
-  const [selectedVehicle, setSelectedVehicle] = useState(null);
-  const [claimData, setClaimData] = useState({
-    description: "",
-    amount: "",
-    vehicleId: null,
-    images: "",
-    status: "Pending",
-  });
-  const [claims, setClaims] = useState([
-    {
-      id: 1,
-      description: "Accident with another vehicle",
-      amount: "1500",
-      vehicle: {
-        make: "Toyota",
-        model: "Corolla",
-        year: 2021,
-        number: "ABC-1234",
-      },
-      status: "Pending",
-      images: "http://example.com/image1.jpg",
-    },
-    {
-      id: 2,
-      description: "Damaged rear bumper",
-      amount: "800",
-      vehicle: {
-        make: "Honda",
-        model: "Civic",
-        year: 2019,
-        number: "XYZ-5678",
-      },
-      status: "Approved",
-      images: "http://example.com/image2.jpg",
-    },
-  ]);
-
-  const handleOpenClaimForm = (vehicle) => {
-    setSelectedVehicle(vehicle);
-    setClaimData({
-      description: "",
-      amount: "",
-      vehicleId: vehicle.id,
-      images: "",
-      status: "Pending",
-    });
-    setOpenClaimForm(true);
-  };
-
-  const handleCloseClaimForm = () => {
-    setOpenClaimForm(false);
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setClaimData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmitClaim = () => {
-    if (!claimData.description || !claimData.amount) {
-      alert("Please fill out all fields.");
+    if (!userId) {
+      alert("User not logged in!");
       return;
     }
-    const newClaim = {
-      id: claims.length + 1,
+
+    const claimPayload = {
+      userId: userId,
+      mobileNumber: claimData.mobileNumber,
+      vehicleNum: claimData.vehicleNum,
+      location: claimData.location,
       description: claimData.description,
-      amount: claimData.amount,
-      vehicle: selectedVehicle,
-      status: claimData.status,
-      images: claimData.images,
     };
-    setClaims((prevClaims) => [...prevClaims, newClaim]);
-    alert("Claim submitted successfully!");
-    handleCloseClaimForm();
+
+    console.log("Claim Payload:", claimPayload); // Ensure mobileNumber is not undefined
+
+    try {
+      const response = await clientService.addClaim(claimPayload);
+      console.log("Response:", response);
+
+      if (response.success) {
+        alert("Claim submitted successfully!");
+        setClaims((prevClaims) => [
+          ...prevClaims,
+          {
+            ...claimPayload,
+            claimId: response.claimId,
+            status: claimData.status,
+          },
+        ]);
+        handleCloseClaimForm();
+      } else {
+        alert("Claim submission failed!");
+      }
+    } catch (error) {
+      alert("An error occurred while submitting the claim.");
+      console.error(error);
+    }
   };
 
   return (
@@ -123,7 +177,12 @@ const Claim = () => {
       <Button
         variant="contained"
         color="primary"
-        onClick={() => handleOpenClaimForm(customer.vehicles[0])} // Open the form for the first vehicle as an example
+        onClick={() => {
+          const firstVehicle = claims[0]; // Just an example; you might want to select a specific vehicle
+          if (firstVehicle) {
+            handleOpenClaimForm(firstVehicle); // Open the form for the selected vehicle
+          }
+        }}
         sx={{ marginBottom: 3 }}
       >
         New Claim
@@ -148,31 +207,32 @@ const Claim = () => {
                 <strong>Description</strong>
               </TableCell>
               <TableCell>
-                <strong>Claim Amount</strong>
+                <strong>Location</strong>
+              </TableCell>
+              <TableCell>
+                <strong>Date</strong>
               </TableCell>
               <TableCell>
                 <strong>Status</strong>
               </TableCell>
-              <TableCell>
-                <strong>Images</strong>
-              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {claims.map((claim) => (
-              <TableRow key={claim.id}>
-                <TableCell>
-                  {claim.vehicle.make} {claim.vehicle.model} (
-                  {claim.vehicle.year})
-                </TableCell>
-                <TableCell>{claim.description}</TableCell>
-                <TableCell>{claim.amount}</TableCell>
-                <TableCell>{claim.status}</TableCell>
-                <TableCell>
-                  {claim.images ? "Images Attached" : "No Images"}
-                </TableCell>
-              </TableRow>
-            ))}
+            {(claims || []).map((claim, index) => {
+              // Convert the createdAt timestamp into a more readable format
+              const formattedDate = new Date(claim.createdAt).toLocaleString();
+
+              return (
+                <TableRow key={index}>
+                  <TableCell>{claim.vehicleNum}</TableCell>
+                  <TableCell>{claim.description}</TableCell>
+                  <TableCell>{claim.location}</TableCell>
+                  <TableCell>{formattedDate}</TableCell>{" "}
+                  {/* Display formatted date */}
+                  <TableCell>{claim.status}</TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </TableContainer>
@@ -191,27 +251,27 @@ const Claim = () => {
               <Typography
                 variant="h6"
                 sx={{ fontWeight: "bold", marginBottom: 2 }}
-              >
-                Claim for {selectedVehicle.make} {selectedVehicle.model} (
-                {selectedVehicle.year})
-              </Typography>
+              ></Typography>
 
               <TextField
                 fullWidth
                 label="Mobile Number"
                 variant="outlined"
                 type="text"
-                name="number"
-                value={claimData.number}
-                onChange={handleInputChange}
+                name="mobileNumber"
+                value={claimData.mobileNumber} // Ensure this is properly populated with claimData.mobileNumber
+                onChange={handleInputChange} // This will update claimData.mobileNumber on change
                 sx={{ marginBottom: 2 }}
               />
+
               <TextField
                 fullWidth
                 label="Vehicle Number"
                 variant="outlined"
-                value={selectedVehicle.number}
-                disabled
+                type="text"
+                name="vehicleNum"
+                value={claimData.vehicleNum}
+                onChange={handleInputChange}
                 sx={{ marginBottom: 2 }}
               />
 

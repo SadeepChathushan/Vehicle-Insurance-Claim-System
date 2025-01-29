@@ -15,9 +15,16 @@ export const useAuth = () => {
   const signIn = async (email, password) => {
     try {
       const userData = await AuthService.signIn(email, password);
+
+      // Assuming userData contains a 'userId' field.
+    const userId = userData.userId;
+    if (userId) {
+      localStorage.setItem('userId', userId);  // Set the userId in localStorage
+    }
       console.log('User data after signIn:', userData);
       localStorage.setItem('token', userData.token);
       localStorage.setItem('user', JSON.stringify(userData));
+     
       setUser(userData);
       return userData;
     } catch (error) {

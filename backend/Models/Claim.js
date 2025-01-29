@@ -8,8 +8,7 @@ const ClaimSchema = new Schema({
         required: true 
     },
     vehicleNum: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Vehicle',
+        type: String,
         required: true
     },
     location: {
@@ -31,7 +30,22 @@ const ClaimSchema = new Schema({
     createdAt: {
         type: Date,
         default: Date.now
-    }  
+    } ,
+    assignedAgent: {
+        type: String,
+    },
+    customerMetStatus: {
+        type: Boolean,
+        default: false // This will default to false indicating that the status has not been met yet
+    },
+    customerMetStatus: {
+        type: Boolean,
+        default: false // This indicates that the status has not been met yet
+    },
+    imageUrls: [{
+        type: String, // Now an array of strings
+        default: [] // Default to an empty array
+    }]
 });
 
 const ClaimModel = mongoose.model('Claim', ClaimSchema);

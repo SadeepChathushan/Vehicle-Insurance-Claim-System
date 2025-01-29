@@ -127,7 +127,7 @@ const Dashboard = () => {
           <Card sx={{ backgroundColor: '#fff', boxShadow: 3, '&:hover': { boxShadow: 6 }, borderRadius: 2 }}>
             <CardContent>
               <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#2c3e50' }}>
-                District Managers
+              Field Agent
               </Typography>
               <Typography variant="h6" sx={{ marginTop: 1, color: '#3498db' }}>
                 {districtManagersCount}
@@ -152,28 +152,11 @@ const Dashboard = () => {
 
       {/* Search Clients Section */}
       <Typography variant="h6" sx={{ marginTop: 3, fontWeight: 'bold' }}>
-        Search Clients
+        Recent Claims
       </Typography>
       <div style={{ display: 'flex', alignItems: 'center', marginBottom: 20 }}>
-        <TextField
-          variant="outlined"
-          label="Search by Client Name"
-          value={searchTerm}
-          onChange={handleSearchChange}
-          sx={{ marginRight: 2, width: '300px' }}
-        />
-        <Button
-          variant="contained"
-          color="primary"
-          sx={{
-            backgroundColor: '#3498db',
-            '&:hover': { backgroundColor: '#2980b9' },
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          <SearchIcon sx={{ marginRight: 1 }} /> Search
-        </Button>
+        
+        
       </div>
 
       {/* Clients Table */}
@@ -182,7 +165,7 @@ const Dashboard = () => {
           <TableHead>
             <TableRow>
               <TableCell><strong>Name</strong></TableCell>
-              <TableCell><strong>Claim Amount</strong></TableCell>
+              <TableCell><strong>Mobile number</strong></TableCell>
               <TableCell><strong>District</strong></TableCell>
               <TableCell><strong>Status</strong></TableCell>
             </TableRow>
@@ -290,7 +273,7 @@ const Dashboard = () => {
               <MenuItem value="CLIENT">Client</MenuItem>
               <MenuItem value="DCADJUSTER">District Adjuster</MenuItem>
               <MenuItem value="HCADJUSTER">Head Adjuster</MenuItem>
-              <MenuItem value="ADMIN">Admin</MenuItem>
+              <MenuItem value="AGENT">Agent</MenuItem>
             </Select>
           </FormControl>
         </DialogContent>

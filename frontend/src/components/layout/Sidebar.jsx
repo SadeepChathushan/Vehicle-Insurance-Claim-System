@@ -11,12 +11,12 @@ import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined'; //das
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
-const iconStyle = { fontSize: "24px", color: "#4e5052" };
+const iconStyle = { fontSize: "24px", color: "#003366" };
 const selectedStyle = {
-  backgroundColor: "#D5C6E0",
-  color: "#967aa1",
+  backgroundColor: "#003366",
+  color: "#003366",
 };
-const selectedFontColor = { color: "#967aa1" };
+const selectedFontColor = { color: "#ffffff" };
 
 const Sidebar = ({ collapsed, userType }) => {
   const navigate = useNavigate();
@@ -49,6 +49,7 @@ const Sidebar = ({ collapsed, userType }) => {
       case "DCADJUSTER":
         return [
           { key: "/dc-adjuster/dashboard", icon: <DashboardOutlinedIcon style={iconStyle} />, label: <Link to="/dc-adjuster/dashboard">Dashboard</Link> },
+          { key: "/dc-adjuster/claims", icon: <DashboardOutlinedIcon style={iconStyle} />, label: <Link to="/dc-adjuster/claims">Claims</Link> },
           
         ];
       case "ADMIN":
@@ -57,9 +58,11 @@ const Sidebar = ({ collapsed, userType }) => {
           { key: "/admin/profile", icon: <DashboardOutlinedIcon style={iconStyle} />, label: <Link to="/admin/profile">Profile</Link> },
 
         ];
-      case "HCADJUSTER":
+      case "AGENT":
         return [
-          { key: "/hc-adjuster/dashboard", icon: <DashboardOutlinedIcon style={iconStyle} />, label: <Link to="/hc-adjuster/dashboard">Dashboard</Link> },
+          { key: "/agent/dashboard", icon: <DashboardOutlinedIcon style={iconStyle} />, label: <Link to="/agent/dashboard">Dashboard</Link> },
+          { key: "/agent/claims", icon: <DashboardOutlinedIcon style={iconStyle} />, label: <Link to="/agent/claims">Claims</Link> },
+          { key: "/agent/cmplt", icon: <DashboardOutlinedIcon style={iconStyle} />, label: <Link to="/agent/cmplt">Complete Claims</Link> },
         ];
       default:
         return [];
@@ -103,7 +106,7 @@ const Sidebar = ({ collapsed, userType }) => {
             left: 0,
             top: 64,
             bottom: 0,
-            backgroundColor: "#f7f7f7", // Ensure consistent background color
+            backgroundColor: "#cacaca", // Ensure consistent background color
           }}
           trigger={null}
       >

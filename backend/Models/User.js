@@ -17,7 +17,7 @@ const UserSchema = new Schema({
     },
     role: {
         type: String,
-        enum: ['ADMIN', 'CLIENT', 'HCADJUSTER', 'DCADJUSTER'],
+        enum: ['ADMIN', 'CLIENT', 'AGENT', 'DCADJUSTER'],
         required: true,
     },
     contact: {

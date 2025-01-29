@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 const VehicleSchema = new Schema({
   clientNic: {
-    type: mongoose.Schema.Types.ObjectId, // Correct type for the reference
-    ref: 'User',                         // Reference to the 'User' model
+    type: String, // Correct type for the reference
+                             
     required: true
   },
     policyNo: {

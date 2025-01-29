@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const UserModel = require('../Models/User');
 const VehicleModel = require('../Models/Vehicle')
 const Claim = require('../Models/Claim')
@@ -20,7 +21,7 @@ const registerClient = async (req, res) => {
       const newClient = new UserModel({
         name,
         email,
-        role: 'CLIENT',
+        role,
         contact,
         city,
         address,
@@ -92,10 +93,180 @@ const registerVehicle = async (req, res) => {
 };
 
 
+// const getClaims = async (req, res) => {
+//   try {
+//     const { userId } = req.params; // Extract userId from route parameter
+
+//     // Verify if the user exists and fetch their city
+//     const user = await User.findById(userId);
+//     if (!user) {
+//       return res.status(404).json({ error: 'User not found' });
+//     }
+
+//     const userCity = user.city; // Get user's city
+
+//     // Fetch claims where the location matches the user's city
+//     const claims = await Claim.find({ location: userCity });
+//     if (claims.length === 0) {
+//       return res.status(404).json({ error: 'No claims found for this city' });
+//     }
+
+//     res.status(200).json({
+//       message: 'Claims retrieved successfully',
+//       success: true,
+//       claims,
+//     });
+//   } catch (err) {
+//     console.error('Get Claims Error:', err);
+//     res.status(500).json({
+//       error: 'Internal server error',
+//       success: false,
+//     });
+//   }
+// };
+
+const getClaims = async (req, res) => {
+  try {
+    const { userId } = req.params; // Extract userId from route parameter
+
+    // Verify if the user exists and fetch their city
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const userCity = user.city.toString(); // Convert user city to string
+    const nic = user.nic.toString();
+    const name = user.name.toString();
+
+    // Fetch claims where the location matches the user's city and assignedAgent is empty or null
+    const claims = await Claim.find({ 
+      location: userCity, 
+      assignedAgent: { $in: [null, ''] } // Check that the assignedAgent is not set (null or empty)
+    });
+
+    if (claims.length === 0) {
+      return res.status(404).json({ error: 'No claims found for this city or all claims have an assigned agent' });
+    }
+
+    // Fetch agents from the same city and log the result for debugging
+    const agents = await User.find({ city: userCity, role: 'AGENT' }).select('name');
+    console.log(agents); // Check the agent data returned
+
+    if (agents.length === 0) {
+      return res.status(404).json({ error: 'No agents found for this city' });
+    }
+
+    res.status(200).json({
+      message: 'Claims and agents retrieved successfully',
+      success: true,
+      claims,
+      nic,
+      name,
+      agents, // Send agents' names
+    });
+  } catch (err) {
+    console.error('Get Claims Error:', err);
+    res.status(500).json({
+      error: 'Internal server error',
+      success: false,
+    });
+  }
+};
+
+const updateAgent = async (req, res) => {
+  try {
+    // const { claimId } = req.params; // Extract the claimId from the URL
+    const { agentId } = req.body; // Extract the agentId from the request body
+
+    console.log(req.params); // Log the entire params object
+const { claimId } = req.params;
+console.log('claimId:', claimId);
+
+    // Find the claim by claimId
+    const claim = await Claim.findById(claimId);
+    if (!claim) {
+      return res.status(404).json({ error: 'Claim not found' });
+    }
+
+    // Check if the agent exists
+    const agent = await User.findById(agentId);
+    if (!agent || agent.role !== 'AGENT') {
+      return res.status(404).json({ error: 'Agent not found or invalid role' });
+    }
+
+    // Update the assignedAgent field with the new agentId
+    claim.assignedAgent = agentId;
+    await claim.save(); // Save the updated claim
+
+    res.status(200).json({
+      message: 'Agent updated successfully',
+      claim, // Optionally return the updated claim data
+    });
+  } catch (err) {
+    console.error('Error details:', err); // Log the error in more detail
+    res.status(500).json({ error: 'Internal server error', details: err.message });
+  }
+};
 
 
-  
-  module.exports = {
-    registerClient,
-    registerVehicle,
+const getAssignedClaims = async (req, res) => {
+  try {
+    const { userId } = req.params; // Extract userId from route parameter
+
+    // Verify if the user exists and fetch their city
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const userCity = user.city.toString(); // Convert user city to string
+    const nic = user.nic.toString();
+    const name = user.name.toString();
+
+    // Fetch claims where the location matches the user's city and assignedAgent is not null or empty
+    const claims = await Claim.find({
+      location: userCity,
+      assignedAgent: { $nin: [null, ''] }, // This filters claims where assignedAgent is not null or empty
+    });
+
+    if (claims.length === 0) {
+      return res.status(404).json({ error: 'No claims found for this city or all claims are unassigned' });
+    }
+
+    // Map the claims to include only the name of the assigned agent
+    const claimsWithAssignedAgent = await Promise.all(claims.map(async (claim) => {
+      const assignedAgent = await User.findById(claim.assignedAgent).select('name'); // Get only the agent's name
+      return {
+        ...claim.toObject(), // Ensure we return a plain JavaScript object
+        assignedAgent: assignedAgent ? assignedAgent.name : 'Not assigned', // Show 'Not assigned' if no agent is assigned
+      };
+    }));
+
+    res.status(200).json({
+      message: 'Assigned Claims retrieved successfully',
+      success: true,
+      claims: claimsWithAssignedAgent,
+      nic,
+      name,
+    });
+  } catch (err) {
+    console.error('Get Claims Error:', err);
+    res.status(500).json({
+      error: 'Internal server error',
+      success: false,
+    });
+  }
+};
+
+
+
+
+
+module.exports = {
+  registerClient,
+  registerVehicle,
+  getClaims,
+  updateAgent,
+  getAssignedClaims
 };

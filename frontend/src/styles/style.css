@@ -1,19 +1,9 @@
 :root {
-
-    /* /========== Colors ==========/ */
-    --white: #fff;
-    --red: #e30202;
-    --black: #262626;
-    --bg1: #f0f0f0;
-    --bg2: #F0EEED;
-
-    --blue: #0808c2;
-    --col1: #D5C6E0;
-    --col2: #AAA1C8;
-    --col3: #967aa1;
-    --col4: #192A51;
-
-    --pending: #f6dda9;
+    :root {
+        --primary-color: #003366; /* Deep navy blue */
+        --secondary-color: #cacaca; /* Light gray */
+        --background-color: #f7f7f7; /* Slightly off-white background */
+    }
 
     /* /========== Font and typography ==========/ */
     --body-font: 'Roboto', sans-serif;
