@@ -9,7 +9,7 @@ const bcrypt = require('bcrypt');
 const registerClient = async (req, res) => {
     try {
       // Extract client information from the request body
-      const { name, email, contact, city, address, nic, dob } = req.body;
+      const { name, email, contact,role, city, address, nic, dob } = req.body;
   
       // Check if the client already exists
       const existingUser = await UserModel.findOne({ email });
@@ -49,48 +49,42 @@ const registerClient = async (req, res) => {
       });
     }
   };
+
+  const User = require('../Models/User'); // Ensure this line is here
+  const Vehicle = require('../Models/Vehicle'); // Ensure this line is here
+  
   
  
+  const registerVehicle = async (req, res) => {
+    try {
+      const { clientNic, policyNo, type, engineNo, periodCoverStart, periodCoverEnd, ChassisNo, mModel } = req.body;
   
-  const User = require('../Models/User'); // Ensure this line is here
-const Vehicle = require('../Models/Vehicle'); // Ensure this line is here
-
-const registerVehicle = async (req, res) => {
-  try {
-    // Ensure all required fields are in the request
-    const { clientNic, policyNo, type, engineNo, periodCoverStart, periodCoverEnd, ChassisNo, mModel } = req.body;
-
-    // // Check if all required fields are provided
-    // if (!clientNic || !policyNo || !type || !engineNo || !periodCoverStart || !periodCoverEnd || !ChassisNo || !mModel) {
-    //   return res.status(400).json({ error: 'Missing required fields' });
-    // }
-
-    // Find the user by NIC (assuming NIC is unique for a user)
-    const user = await User.findOne({ nic: clientNic });
-
-    if (!user) {
-      return res.status(400).json({ error: 'User not found' });
+      // Find the user by NIC
+      const user = await UserModel.findOne({ nic: clientNic }); // Here, use UserModel instead of User
+  
+      if (!user) {
+        return res.status(400).json({ error: 'User not found' });
+      }
+  
+      const newVehicle = new VehicleModel({ // Assuming you also have VehicleModel defined
+        clientNic: user._id,
+        policyNo,
+        type,
+        engineNo,
+        periodCoverStart,
+        periodCoverEnd,
+        ChassisNo,
+        mModel,
+      });
+  
+      await newVehicle.save();
+      res.status(201).json({ message: 'Vehicle registered successfully' });
+    } catch (err) {
+      console.error('Register Vehicle Error:', err);
+      res.status(500).json({ error: 'Server error', details: err.toString() });
     }
-
-    // Create a new vehicle using the found user's _id
-    const newVehicle = new Vehicle({
-      clientNic: user._id,  // Use the ObjectId from User
-      policyNo,
-      type,
-      engineNo,
-      periodCoverStart,
-      periodCoverEnd,
-      ChassisNo,
-      mModel,
-    });
-
-    await newVehicle.save();
-    res.status(201).json({ message: 'Vehicle registered successfully' });
-  } catch (err) {
-    console.error('Register Vehicle Error:', err);
-    res.status(500).json({ error: 'Server error' });
-  }
-};
+  };
+  
 
 
 // const getClaims = async (req, res) => {
@@ -260,6 +254,95 @@ const getAssignedClaims = async (req, res) => {
 };
 
 
+const getCompleteClaims = async (req, res) => {
+  try {
+    const { userId } = req.params; // Extract userId from route parameter
+
+    // Verify if the user exists and fetch their city
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const userCity = user.city.toString(); // Convert user city to string
+    const nic = user.nic.toString();
+    const name = user.name.toString();
+
+    // Fetch claims where the location matches the user's city and assignedAgent is empty or null
+    const claims = await Claim.find({ 
+      location: userCity, 
+      customerMetStatus: true // Check that the assignedAgent is customerMet
+    });
+
+    if (claims.length === 0) {
+      return res.status(404).json({ error: 'No claims found for this city or all claims have an assigned agent' });
+    }
+
+    // Fetch agents from the same city and log the result for debugging
+    const agents = await User.find({ city: userCity, role: 'AGENT' }).select('name');
+    console.log(agents); // Check the agent data returned
+
+    if (agents.length === 0) {
+      return res.status(404).json({ error: 'No agents found for this city' });
+    }
+
+    res.status(200).json({
+      message: 'Claims and agents retrieved successfully',
+      success: true,
+      claims,
+      nic,
+      name,
+      agents, // Send agents' names
+    });
+  } catch (err) {
+    console.error('Get Claims Error:', err);
+    res.status(500).json({
+      error: 'Internal server error',
+      success: false,
+    });
+  }
+};
+
+const getdcAdjusterProfile = async (req, res) => {
+  try {
+    const { userId } = req.params; // Extract the user ID from URL params
+
+    // Find the adjuster by MongoDB _id
+    const dcAdjuster = await UserModel.findById(userId); // Correctly use findById without {}
+
+    // If adjuster not found or role mismatch
+    if (!dcAdjuster || dcAdjuster.role !== 'DCADJUSTER') {
+      return res.status(404).json({
+        message: 'DCAdjuster not found',
+        success: false,
+      });
+    }
+
+    // Return adjuster details
+    res.status(200).json({
+      message: 'District Adjuster profile retrieved successfully',
+      success: true,
+      data: {
+        name: dcAdjuster.name,
+        email: dcAdjuster.email,
+        contact: dcAdjuster.contact,
+        city: dcAdjuster.city,
+        address: dcAdjuster.address,
+        nic: dcAdjuster.nic,
+        dob: dcAdjuster.dob,
+        role: dcAdjuster.role,
+      },
+    });
+  } catch (err) {
+    console.error('Get District Adjuster Profile Error:', err);
+    res.status(500).json({
+      message: 'Internal server error',
+      success: false,
+    });
+  }
+};
+
+
 
 
 
@@ -268,5 +351,7 @@ module.exports = {
   registerVehicle,
   getClaims,
   updateAgent,
-  getAssignedClaims
+  getAssignedClaims,
+  getCompleteClaims,
+  getdcAdjusterProfile
 };

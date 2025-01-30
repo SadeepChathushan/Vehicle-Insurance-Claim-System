@@ -7,23 +7,21 @@ const { TabPane } = Tabs;
 const ClaimsTabs = ({
   data,
   assignedClaims,
+  completedClaims,
   agents,
   handleAgentChange,
   handleImageClick,
 }) => {
-  // 1) "Not Assigned" claims: filter from `data` if you want only those with "Claim Received"
-  const notAssignedClaims = data.filter((claim) => claim.status === "Claim Received");
+  // Filter "Not Assigned" out of general claims data
+  // We consider "Claim Received" and "agent" is "Not Assigned"
+  const notAssignedClaims = data.filter(
+    (claim) => claim.status === "Claim Received" && claim.agent === "Not Assigned"
+  );
 
-  // 2) For "Assigned" claims, now we use the assignedClaims prop directly
-  //    (because you fetched them from the second API).
-  //    If you prefer to filter them by status, you can—but we’ll assume they’re
-  //    all assigned from that second call:
+  // The assignedClaims are fetched from the second API endpoint
   const assigned = assignedClaims;
 
-  // 3) "Completed" claims: if you want them from the first set of data or the second,
-  //    filter accordingly. For example:
-  const completedClaims = data.filter((claim) => claim.status === "Claim Completed");
-
+  // The completedClaims are fetched from the third API endpoint
   return (
     <Tabs defaultActiveKey="1" centered>
       <TabPane tab="Not Assigned Claims" key="1">
@@ -35,6 +33,7 @@ const ClaimsTabs = ({
           type="notAssigned"
         />
       </TabPane>
+
       <TabPane tab="Assigned Claims" key="2">
         <ClaimsTable
           claims={assigned}
@@ -44,6 +43,7 @@ const ClaimsTabs = ({
           type="assigned"
         />
       </TabPane>
+
       <TabPane tab="Completed Claims" key="3">
         <ClaimsTable
           claims={completedClaims}

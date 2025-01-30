@@ -5,18 +5,19 @@ import dcAdService from '../../services/dcAdService'; // Assuming you've already
 import VehicleRegistration from '../../components/DCAdjuster/VehicleR';
 import { notification } from 'antd'; // Import Ant Design notification
 
+
 const Dashboard = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [clientData, setClientData] = useState([
-    { name: 'John Doe', claimAmount: 2500, district: 'Colombo', status: 'Pending' },
-    { name: 'Jane Smith', claimAmount: 5000, district: 'Kandy', status: 'Complete' },
-    { name: 'Alex Brown', claimAmount: 3500, district: 'Galle', status: 'Pending' },
-    { name: 'Maria Johnson', claimAmount: 1000, district: 'Matara', status: 'Complete' },
+    { name: 'Wishwa Prabathiya', claimAmount: "0778827260",vehicleNumber:"AAB-2314", district: 'Colombo', status: 'Pending' },
+    { name: 'Maleesha Disasekara', claimAmount: "0786352411",vehicleNumber:"ACC-8976", district: 'Kandy', status: 'Complete' },
+    { name: 'Mithun Weerasinha', claimAmount: "0745636234",vehicleNumber:"LL-2312", district: 'Galle', status: 'Pending' },
+    { name: 'Jagath Dammika', claimAmount: "0774536256", vehicleNumber:"AAM-3692",district: 'Matara', status: 'Complete' },
   ]);
   
   const [openRegistrationPopup, setOpenRegistrationPopup] = useState(false);
   const [userData, setUserData] = useState({
-    name: '', email: '', role: 'CLIENT', contact: '', city: '', address: '', nic: '', dob: ''
+    name: '', email: '', role: '', contact: '', city: '', address: '', nic: '', dob: ''
   });
 
   const handleSearchChange = (e) => {
@@ -27,7 +28,7 @@ const Dashboard = () => {
     client.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const totalClaimAmount = clientData.reduce((total, client) => total + client.claimAmount, 0);
+  const totalClaimAmount = 10;
   const districtManagersCount = 5; // Sample count for district managers.
 
   const handleOpenRegistrationPopup = () => {
@@ -117,7 +118,7 @@ const Dashboard = () => {
                 Total Claim Amount
               </Typography>
               <Typography variant="h6" sx={{ marginTop: 1, color: '#3498db' }}>
-                ${totalClaimAmount.toLocaleString()}
+              {totalClaimAmount.toLocaleString()}
               </Typography>
             </CardContent>
           </Card>
@@ -165,6 +166,7 @@ const Dashboard = () => {
           <TableHead>
             <TableRow>
               <TableCell><strong>Name</strong></TableCell>
+              <TableCell><strong>Vehicle Number</strong></TableCell>
               <TableCell><strong>Mobile number</strong></TableCell>
               <TableCell><strong>District</strong></TableCell>
               <TableCell><strong>Status</strong></TableCell>
@@ -174,7 +176,8 @@ const Dashboard = () => {
             {filteredClients.map((client, index) => (
               <TableRow key={index}>
                 <TableCell>{client.name}</TableCell>
-                <TableCell>${client.claimAmount}</TableCell>
+                <TableCell>{client.vehicleNumber}</TableCell>
+                <TableCell>{client.claimAmount}</TableCell>
                 <TableCell>{client.district}</TableCell>
                 <TableCell>{client.status}</TableCell>
               </TableRow>

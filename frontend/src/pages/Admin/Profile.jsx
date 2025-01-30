@@ -1,5 +1,6 @@
 import React, { useState  , useEffect} from 'react';
 import AdminProfileService from '../../services/adminService';
+import Actor from '../../assets/images/Actor1.jpg'
 
 const Profile = () => {
   const [formData, setFormData] = useState({
@@ -22,7 +23,7 @@ const Profile = () => {
 
 
   const [avatar, setAvatar] = useState(null);
-  const [avatarPreview, setAvatarPreview] = useState('https://images.unsplash.com/photo-1595152772830-6e55b6d4788e');
+  const [avatarPreview, setAvatarPreview] = useState(Actor);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -106,20 +107,20 @@ const Profile = () => {
     alert("Profile updated successfully!");
 
 
-    if (loading) return <div className="text-center p-4">Loading...</div>;
-    if (error) return <div className="text-center text-red-500 p-4">{error}</div>;
+    if (loading) return <div className="p-4 text-center">Loading...</div>;
+    if (error) return <div className="p-4 text-center text-red-500">{error}</div>;
   };
 
   return (
-    <div className="flex flex-col items-center p-4 bg-gray-100 min-h-screen">
-      <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-1xl flex">
-        <div className="text-center mr-8"> {/* Add margin to the right */}
+    <div className="flex flex-col items-center min-h-screen p-4 bg-gray-100">
+      <div className="flex w-full p-6 bg-white rounded-lg shadow-lg max-w-1xl">
+        <div className="mr-8 text-center"> {/* Add margin to the right */}
           <label htmlFor="avatar-upload" className="cursor-pointer">
-            <div className="w-52 h-52 rounded-full overflow-hidden border-4 border-gray-300 mx-auto"> {/* Circular container */}
+            <div className="mx-auto overflow-hidden border-4 border-gray-300 rounded-full w-52 h-52"> {/* Circular container */}
               <img
                 src={avatarPreview}
                 alt="Avatar Preview"
-                className="w-full h-full object-cover" // Ensures the image covers the circular space
+                className="object-cover w-full h-full" // Ensures the image covers the circular space
               />
             </div>
           </label>
@@ -130,12 +131,12 @@ const Profile = () => {
             className="hidden" // Hide the input
             onChange={handleAvatarChange}
           />
-          <h2 className="text-2xl font-semibold mt-4">{formData.name}</h2>
+          <h2 className="mt-4 text-2xl font-semibold">{formData.name}</h2>
           <p className="text-sm text-gray-500">Update your profile details</p>
         </div>
 
         <div className="flex-grow"> {/* Allow this section to take remaining space */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div>
               <label className="block font-medium">Name</label>
               <input
@@ -144,7 +145,7 @@ const Profile = () => {
                 value={formData.name}
                 disabled 
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg p-2 mt-1"
+                className="w-full p-2 mt-1 border border-gray-300 rounded-lg"
               />
             </div>
             <div>
@@ -154,7 +155,7 @@ const Profile = () => {
                 name="city"
                 value={formData.city}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg p-2 mt-1"
+                className="w-full p-2 mt-1 border border-gray-300 rounded-lg"
               />
             </div>
             <div>
@@ -164,7 +165,7 @@ const Profile = () => {
                 name="address"
                 value={formData.address}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg p-2 mt-1"
+                className="w-full p-2 mt-1 border border-gray-300 rounded-lg"
               />
             </div>
             <div>
@@ -174,7 +175,7 @@ const Profile = () => {
                 name="dob"
                 value={formData.dob}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg p-2 mt-1"
+                className="w-full p-2 mt-1 border border-gray-300 rounded-lg"
               />
             </div>
             <div>
@@ -185,7 +186,7 @@ const Profile = () => {
                 value={formData.email}
                 disabled 
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg p-2 mt-1"
+                className="w-full p-2 mt-1 border border-gray-300 rounded-lg"
               />
             </div>
             <div>
@@ -195,7 +196,7 @@ const Profile = () => {
                 name="contactNumber"
                 value={formData.contactNumber}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg p-2 mt-1"
+                className="w-full p-2 mt-1 border border-gray-300 rounded-lg"
               />
             </div>
 
@@ -206,7 +207,7 @@ const Profile = () => {
                 name="nic"
                 value={formData.nic}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg p-2 mt-1"
+                className="w-full p-2 mt-1 border border-gray-300 rounded-lg"
               />
             </div>
             <div>
@@ -217,14 +218,14 @@ const Profile = () => {
                 disabled 
                 value={formData.role}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg p-2 mt-1"
+                className="w-full p-2 mt-1 border border-gray-300 rounded-lg"
               />
             </div>
 
           </div>
 
-          <h3 className="text-lg font-medium mt-6">Change Password</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+          <h3 className="mt-6 text-lg font-medium">Change Password</h3>
+          <div className="grid grid-cols-1 gap-4 mt-4 md:grid-cols-3">
             <div>
               <label className="block font-medium">Current Password</label>
               <input
@@ -232,7 +233,7 @@ const Profile = () => {
                 name="currentPassword"
                 value={formData.currentPassword}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg p-2 mt-1"
+                className="w-full p-2 mt-1 border border-gray-300 rounded-lg"
                 autoComplete="new-password" // Prevent browser autofill
 
               />
@@ -244,7 +245,7 @@ const Profile = () => {
                 name="newPassword"
                 value={formData.newPassword}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg p-2 mt-1"
+                className="w-full p-2 mt-1 border border-gray-300 rounded-lg"
                 autoComplete="new-password" // Prevent browser autofill
 
               />
@@ -256,16 +257,16 @@ const Profile = () => {
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-lg p-2 mt-1"
+                className="w-full p-2 mt-1 border border-gray-300 rounded-lg"
                 autoComplete="new-password" // Prevent browser autofill
 
               />
             </div>
           </div>
 
-          <div className="text-center mt-6">
+          <div className="mt-6 text-center">
             <button
-              className="bg-blue-500 text-white font-medium py-2 px-6 rounded-lg hover:bg-blue-600"
+              className="px-6 py-2 font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600"
               onClick={handleSaveChanges}
             >
               Save Changes

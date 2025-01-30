@@ -49,36 +49,28 @@ const ClaimsTable = ({
           { title: "Mobile Number", dataIndex: "mobileNumber", key: "mobileNumber" },
           { title: "Date", dataIndex: "date", key: "date" },
           { title: "Assigned Agent", dataIndex: "agent", key: "agent" },
-          {
-            title: "Images",
-            dataIndex: "images",
-            key: "images",
-            render: (text, record) => (
-              <Button type="link" size="small" onClick={() => handleImageClick(record.images)}>
-                View Images
-              </Button>
-            ),
-          },
+        
         ]
-      : // type === "completed"
-        [
-          { title: "Name", dataIndex: "name", key: "name" },
-          { title: "NIC", dataIndex: "nic", key: "nic" },
-          { title: "Vehicle Number", dataIndex: "vehicleNumber", key: "vehicleNumber" },
-          { title: "Mobile Number", dataIndex: "mobileNumber", key: "mobileNumber" },
-          { title: "Date", dataIndex: "date", key: "date" },
-          { title: "Assigned Agent", dataIndex: "agent", key: "agent" },
-          {
-            title: "Images",
-            dataIndex: "images",
-            key: "images",
-            render: (text, record) => (
-              <Button type="link" size="small" onClick={() => handleImageClick(record.images)}>
-                View Images
-              </Button>
-            ),
-          },
-        ];
+      : 
+      [
+        // { title: "Name", dataIndex: "name", key: "name" },
+        // { title: "NIC", dataIndex: "nic", key: "nic" },
+        { title: "Vehicle Number", dataIndex: "vehicleNumber", key: "vehicleNumber" },
+        { title: "Mobile Number", dataIndex: "mobileNumber", key: "mobileNumber" },
+        { title: "Date", dataIndex: "date", key: "date" },
+        { title: "Assigned Agent", dataIndex: "agent", key: "agent" },
+        {
+          title: "Images",
+          dataIndex: "images",
+          key: "images",
+          render: (images, record) => (
+            <Button type="link" size="small" onClick={() => handleImageClick(images)}>
+              View Images
+            </Button>
+          ),
+        },
+      ];
+      console.log('Claims Data1111:', claims);
 
   return <Table columns={columns} dataSource={claims} pagination={false} rowKey="key" />;
 };

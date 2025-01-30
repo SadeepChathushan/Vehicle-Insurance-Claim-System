@@ -76,7 +76,49 @@ const getClaimsForUser = async (req, res) => {
   }
 };
 
+
+const getdClientProfile = async (req, res) => {
+  try {
+    const { userId } = req.params; // Extract the user ID from URL params
+
+    console.log('Finding client with ID:', userId);
+const client = await UserModel.findById(userId);
+console.log('Client found:', client);
+    // If adjuster not found or role mismatch
+    if (!client || client.role !== 'CLIENT') {
+      return res.status(404).json({
+        message: 'Client not found',
+        success: false,
+      });
+    }
+
+    // Return adjuster details
+    res.status(200).json({
+      message: 'Client profile retrieved successfully',
+      success: true,
+      data: {
+        name: client.name,
+        email: client.email,
+        contact: client.contact,
+        city: client.city,
+        address: client.address,
+        nic: client.nic,
+        dob: client.dob,
+        role: client.role,
+      },
+    });
+  } catch (err) {
+    console.error('Get Client Profile Error:', err);
+    res.status(500).json({
+      message: 'Internal server error',
+      success: false,
+    });
+  }
+};
+
+
 module.exports = {
   addClaim,
   getClaimsForUser,
+  getdClientProfile
 };

@@ -18,6 +18,7 @@ const dcAdService = {
           },
         });
   
+        console.log(response);
         return response.data; // Return the created admin details
       } catch (error) {
         console.error('Error registering client:', error.response ? error.response.data : error.message);
@@ -27,24 +28,21 @@ const dcAdService = {
 
 
 
-     // Create a new admin or officer
-     async createVehiIns(VehicleData) {
-      const token = localStorage.getItem('token'); // Retrieve token from local storage
+    async createVehiIns(payload) {
+      const token = localStorage.getItem('token');
       if (!token) {
         throw new Error('No token found. Please log in.');
       }
   
       try {
-        const response = await axios.post(`${API_URL}/register-vehicle`, VehicleData, {
-          headers: {
-            Authorization: `Bearer ${token}`, // Add token to headers for authentication
-          },
+        const response = await axios.post(`${API_URL}/register-vehicle`, payload, {
+          headers: { Authorization: `Bearer ${token}` },
         });
-  
-        return response.data; // Return the created admin details
+        console.log(response);
+        return response.data;
       } catch (error) {
-        console.error('Error registering client:', error.response ? error.response.data : error.message);
-        throw error.response ? error.response.data : error; // Throw error for the caller to handle
+        console.error('Error registering vehicle:', error.response?.data || error.message);
+        throw error.response?.data || error;
       }
     },
 
@@ -129,7 +127,53 @@ async getAssiClaims(userId) {
 },
 
 
-  
+     // Fetch claims for a specific user
+async getCompleteClaims(userId) {
+  const token = localStorage.getItem('token'); // Retrieve token from local storage
+  if (!token) {
+    throw new Error('No token found. Please log in.');
+  }
+
+  try {
+    // Make a GET request to the API with the userId in the URL
+    const response = await axios.get(`${API_URL}/get-complete/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Add token to headers for authentication
+      },
+    });
+
+    console.log("response service", response);  // Log the entire response to debug
+    return response.data; // Return the claims data
+  } catch (error) {
+    console.error('Error fetching claims:', error.response ? error.response.data : error.message);
+    throw error.response ? error.response.data : error; // Throw error for the caller to handle
+  }
+},
+
+
+// Fetch admin profile by ID
+async getProfile(userId) {
+  const token = localStorage.getItem('token'); // Retrieve the token from localStorage
+  if (!token) {
+    throw new Error('No token found. Please log in.');
+  }
+
+  try {
+    const response = await axios.get(`${API_URL}/profile/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Attach the token in the headers
+      },
+    });
+
+    console.log('Data1' , response.data);
+
+    return response.data; // Return the fetched profile data
+  } catch (error) {
+    console.error('Error fetching admin profile:', error.response ? error.response.data : error.message);
+    throw error.response ? error.response.data : error; // Re-throw error for the caller to handle
+  }
+},
+
 }
 
 export default dcAdService;

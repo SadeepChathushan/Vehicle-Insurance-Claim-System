@@ -50,6 +50,8 @@ const Sidebar = ({ collapsed, userType }) => {
         return [
           { key: "/dc-adjuster/dashboard", icon: <DashboardOutlinedIcon style={iconStyle} />, label: <Link to="/dc-adjuster/dashboard">Dashboard</Link> },
           { key: "/dc-adjuster/claims", icon: <DashboardOutlinedIcon style={iconStyle} />, label: <Link to="/dc-adjuster/claims">Claims</Link> },
+          { key: "/dc-adjuster/profile", icon: <DashboardOutlinedIcon style={iconStyle} />, label: <Link to="/dc-adjuster/profile">Profile</Link> },
+
           
         ];
       case "ADMIN":

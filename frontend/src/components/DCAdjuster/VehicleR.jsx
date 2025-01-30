@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import dcAdService from '../../services/dcAdService'; // Import backend service
+import { notification } from 'antd'; // Import Ant Design notification
 
 const VehicleR = () => {
   const [openVehiclePopup, setOpenVehiclePopup] = useState(false);
@@ -39,6 +40,15 @@ const VehicleR = () => {
       [name]: value,
     }));
   };
+
+  // Handle Date Change and Convert to Backend Format
+  const handleDateChange = (e) => {
+    setVehicleData({
+      ...vehicleData,
+      [e.target.name]: new Date(e.target.value).toISOString(), // Convert to ISO format
+    });
+  };
+
   const handleSubmitVehicleRegistration = async () => {
     if (
       !vehicleData.clientNic ||
@@ -56,7 +66,7 @@ const VehicleR = () => {
       });
       return;
     }
-  
+
     const payload = {
       clientNic: vehicleData.clientNic,
       policyNo: vehicleData.policyNo,
@@ -64,10 +74,10 @@ const VehicleR = () => {
       engineNo: vehicleData.engineNo,
       periodCoverStart: vehicleData.periodCoverStart,
       periodCoverEnd: vehicleData.periodCoverEnd,
-      ChassisNo: vehicleData.chassisNo,  // Make sure this key matches the backend
-      mModel: vehicleData.model,         // Make sure this key matches the backend
+      ChassisNo: vehicleData.chassisNo, // Ensure key matches backend
+      mModel: vehicleData.model, // Ensure key matches backend
     };
-  
+
     setLoading(true);
     try {
       const response = await dcAdService.createVehiIns(payload);
@@ -80,13 +90,19 @@ const VehicleR = () => {
       console.error('Error during vehicle registration:', error);
       notification.error({
         message: 'Error',
-        description: error.response?.data?.message || error.message || 'Failed to register vehicle.',
+        description: error.response?.data?.message || 'Failed to register vehicle.',
       });
     } finally {
       setLoading(false);
     }
   };
-  
+
+
+  // Utility function to safely format date
+function safeDateFormat(dateStr) {
+  const date = new Date(dateStr);
+  return isNaN(date.getTime()) ? '' : date.toISOString().split('T')[0];
+}
 
   return (
     <div>
@@ -108,7 +124,7 @@ const VehicleR = () => {
       </Button>
 
       {/* Vehicle Registration Popup */}
-      <Dialog open={openVehiclePopup} onClose={handleCloseVehiclePopup} maxWidth="sm" fullWidth>
+      <Dialog open={openVehiclePopup} onClose={handleCloseVehiclePopup} maxWidth="sm" fullWidth disableEnforceFocus>
         <DialogTitle>Register Vehicle with Insurance</DialogTitle>
         <DialogContent>
           <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: 2 }}>
@@ -160,27 +176,27 @@ const VehicleR = () => {
             sx={{ marginBottom: 2 }}
           />
 
-          <TextField
-            fullWidth
-            label="Period of Cover Start"
-            type="date"
-            name="periodCoverStart"
-            value={vehicleData.periodCoverStart}
-            onChange={handleInputChange}
-            InputLabelProps={{ shrink: true }}
-            sx={{ marginBottom: 2 }}
-          />
+<TextField
+  fullWidth
+  label="Period of Cover Start"
+  type="date"
+  name="periodCoverStart"
+  value={safeDateFormat(vehicleData.periodCoverStart)}
+  onChange={handleDateChange}
+  InputLabelProps={{ shrink: true }}
+  sx={{ marginBottom: 2 }}
+/>
 
-          <TextField
-            fullWidth
-            label="Period of Cover End"
-            type="date"
-            name="periodCoverEnd"
-            value={vehicleData.periodCoverEnd}
-            onChange={handleInputChange}
-            InputLabelProps={{ shrink: true }}
-            sx={{ marginBottom: 2 }}
-          />
+<TextField
+  fullWidth
+  label="Period of Cover End"
+  type="date"
+  name="periodCoverEnd"
+  value={safeDateFormat(vehicleData.periodCoverEnd)}
+  onChange={handleDateChange}
+  InputLabelProps={{ shrink: true }}
+  sx={{ marginBottom: 2 }}
+/>
 
           <FormControl fullWidth sx={{ marginBottom: 2 }}>
             <InputLabel>Vehicle Model</InputLabel>

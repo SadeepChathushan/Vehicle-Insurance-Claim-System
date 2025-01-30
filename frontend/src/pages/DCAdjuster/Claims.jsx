@@ -7,6 +7,7 @@ import dcAdService from "../../services/dcAdService";
 const Claims = () => {
   const [data, setData] = useState([]); // For claims from the first API
   const [assignedClaims, setAssignedClaims] = useState([]); // For claims from the second API
+  const [completedClaims, setCompletedClaims] = useState([]);
   const [agents, setAgents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -81,6 +82,23 @@ const Claims = () => {
           );
         }
 
+        // New call to fetch completed claims
+        const completeClaimsResponse = await dcAdService.getCompleteClaims(userId);
+        const formattedCompletedClaims = completeClaimsResponse.claims.map((claim) => ({
+          key: claim._id,
+          // name: completeClaimsResponse.name,
+          // nic: completeClaimsResponse.nic,
+          vehicleNumber: claim.vehicleNum,
+          mobileNumber: claim.mobileNumber,
+          location: claim.location,
+          // status: claim.status,
+          date: new Date(claim.createdAt).toLocaleDateString(),
+          agent: claim.assignedAgent,
+          images: claim.imageUrls, // Ensure to include image URLs for modal display
+        }));
+        setCompletedClaims(formattedCompletedClaims);
+        console.log('Completed Claims Set:', formattedCompletedClaims);
+
         setLoading(false);
       } catch (error) {
         notification.error({
@@ -136,6 +154,7 @@ const Claims = () => {
           <ClaimsTabs
             data={data}
             assignedClaims={assignedClaims}
+            completedClaims={completedClaims}
             handleAgentChange={handleAgentChange}
             handleImageClick={handleImageClick}
             agents={agents}

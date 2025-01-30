@@ -47,6 +47,30 @@ const clientService = {
       throw error.response ? error.response.data : error; // Throw error for the caller to handle
     }
   },
+
+  // Fetch admin profile by ID
+async getProfile(userId) {
+  const token = localStorage.getItem('token'); // Retrieve the token from localStorage
+  if (!token) {
+    throw new Error('No token found. Please log in.');
+  }
+
+  try {
+    const response = await axios.get(`${API_URL}/profile/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Attach the token in the headers
+      },
+    });
+
+    console.log('Data1' , response.data);
+
+    return response.data; // Return the fetched profile data
+  } catch (error) {
+    console.error('Error fetching admin profile:', error.response ? error.response.data : error.message);
+    throw error.response ? error.response.data : error; // Re-throw error for the caller to handle
+  }
+},
+
 }
   
   export default clientService;
